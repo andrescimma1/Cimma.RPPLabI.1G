@@ -48,12 +48,13 @@ int buscarLibre(eNotebook arrayNotebooks[], int tamnot)
 }
 
 
-void listarNotebook(eNotebook pNotebook, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+void listarNotebook(eNotebook pNotebook, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int i;
     char marcaEncontrada[20];
     char tipoEncontrado[20];
     char nombreEncontrado[20];
+    int gbEncontrado;
 
     for(i=0; i<lenmar; i++)
     {
@@ -79,7 +80,15 @@ void listarNotebook(eNotebook pNotebook, eMarca arrayMarcas[], int lenmar, eTipo
         }
     }
 
-    printf("%d     %7s    %7s    %7s   %d    %s\n", pNotebook.id, pNotebook.modelo, marcaEncontrada, tipoEncontrado, pNotebook.precio, nombreEncontrado);
+    for(i=0; i<tamram; i++)
+    {
+        if(pNotebook.idRAM == arrayRams[i].id && pNotebook.ocupado == 1)
+        {
+            gbEncontrado = arrayRams[i].gb;
+        }
+    }
+
+    printf("%d     %7s    %7s    %7s   %d    %s     %d\n", pNotebook.id, pNotebook.modelo, marcaEncontrada, tipoEncontrado, pNotebook.precio, nombreEncontrado, gbEncontrado);
 }
 
 
@@ -220,7 +229,7 @@ void ordenarPorMarcaYprecio(eNotebook arrayNotebooks[], int len, eMarca arrayMar
  * \return Devuelve -1 si no se encontraron notebooks, o devuelve 0 si se encontraron.
  *
  */
-int listarNotebooks(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+int listarNotebooks(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int i;
     int indice = -1;
@@ -231,13 +240,13 @@ int listarNotebooks(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], i
 
     printf("Listado de notebooks\n");
     printf("_______________________________________________________________________________\n");
-    printf("ID     MODELO     MARCA     TIPO     PRECIO      NOMBRE\n");
+    printf("ID     MODELO     MARCA     TIPO     PRECIO      NOMBRE      RAM(GB)\n");
 
     for(i=0; i<len; i++)
     {
         if(arrayNotebooks[i].ocupado == 1)
         {
-            listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+            listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
             indice = 0;
         }
     }
@@ -392,6 +401,11 @@ int menu()
     printf("8. Pedir un notebook e informar la suma de los importes de los services se le hicieron a la misma.\n");
     printf("9. Pedir un servicio y mostrar las notebooks a las que se realizó ese servicio y la fecha.\n");
     printf("J. Pedir una fecha y mostrar todos los servicios realizados en la misma.\n");
+    printf("K. Muestra las memorias RAM con su id y cuantos 'GB' tiene.\n");
+    printf("L. Mostrar las notebooks con la memoria RAM seleccionada por el usuario.\n");
+    printf("M. Informar la o las notebooks mas caras.\n");
+    printf("N. Mostrar un listado de las notebooks separadas por RAM.\n");
+    printf("O. Mostrar la o las RAM mas elegidas por los clientes.\n");
     printf("\n");
 
 
@@ -411,12 +425,12 @@ int menu()
  * \return
  *
  */
-void modificarNotebook(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+void modificarNotebook(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int i;
     int idnot;
 
-    listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+    listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
     printf("\n\n Ingrese la ID de la notebook que desea modificar: ");
     scanf("%d", &idnot);
 
@@ -477,13 +491,13 @@ int submenu()
  * \return No devuelve nada.
  *
  */
-void bajaNotebook(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+void bajaNotebook(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int idNot;
     int i;
     char opcion;
 
-    listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+    listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
 
     printf("\nIngrese el ID de la notebook a dar de baja: ");
     scanf("%d", &idNot);
@@ -519,7 +533,7 @@ void bajaNotebook(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int
  * \return No devuelve nada.
  *
  */
-void mostrarNotebooksPorTipoSeleccionado(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+void mostrarNotebooksPorTipoSeleccionado(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int indice = -1;
     int idTipo;
@@ -538,7 +552,7 @@ void mostrarNotebooksPorTipoSeleccionado(eNotebook arrayNotebooks[], int len, eM
             {
                 if(arrayTipos[j].id == idTipo && arrayNotebooks[i].idTipo == idTipo)
                 {
-                    listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+                    listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
                     indice = 0;
                 }
             }
@@ -562,7 +576,7 @@ void mostrarNotebooksPorTipoSeleccionado(eNotebook arrayNotebooks[], int len, eM
  * \return No devuelve nada.
  *
  */
-void mostrarNotebooksPorMarcaSeleccionada(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+void mostrarNotebooksPorMarcaSeleccionada(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int indice = -1;
     int idMarca;
@@ -581,7 +595,7 @@ void mostrarNotebooksPorMarcaSeleccionada(eNotebook arrayNotebooks[], int len, e
             {
                 if(arrayMarcas[j].id == idMarca && arrayNotebooks[i].idMarca == idMarca)
                 {
-                    listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+                    listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
                     indice = 0;
                 }
             }
@@ -604,7 +618,7 @@ void mostrarNotebooksPorMarcaSeleccionada(eNotebook arrayNotebooks[], int len, e
  * \return No devuelve nada.
  *
  */
-void informarLaOLasNotebooksMasBaratas(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+void informarLaOLasNotebooksMasBaratas(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int i, j;
     int minimoPosicionArray;
@@ -636,7 +650,7 @@ void informarLaOLasNotebooksMasBaratas(eNotebook arrayNotebooks[], int len, eMar
 
     if(flag == 1)
     {
-        listarNotebook(arrayNotebooks[minimoPosicionArray], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+        listarNotebook(arrayNotebooks[minimoPosicionArray], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
     }
     else
     {
@@ -653,7 +667,7 @@ void informarLaOLasNotebooksMasBaratas(eNotebook arrayNotebooks[], int len, eMar
  * \return No devuelve nada.
  *
  */
-void separarPorMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+void separarPorMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int i;
 
@@ -664,7 +678,7 @@ void separarPorMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], 
         {
             if(arrayNotebooks[i].idMarca == 1000)
             {
-                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
             }
         }
     }
@@ -677,7 +691,7 @@ void separarPorMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], 
         {
             if(arrayNotebooks[i].idMarca == 1001)
             {
-                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
             }
         }
     }
@@ -690,7 +704,7 @@ void separarPorMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], 
         {
             if(arrayNotebooks[i].idMarca == 1002)
             {
-                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
             }
         }
     }
@@ -702,7 +716,7 @@ void separarPorMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], 
         {
             if(arrayNotebooks[i].idMarca == 1003)
             {
-                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
             }
         }
     }
@@ -717,7 +731,7 @@ void separarPorMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], 
  * \return No devuelve nada.
  *
  */
-void mostrarNotebooksPorTipoYMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli)
+void mostrarNotebooksPorTipoYMarca(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int idTipo;
     int idMarca;
@@ -832,5 +846,304 @@ void mostrarLaOLasMarcasMasElegidas(eNotebook arrayNotebooks[], int len, eMarca 
     else
     {
         printf("No hay notebooks ingresadas.\n\n");
+    }
+}
+
+
+
+
+
+
+/** \brief Pide al usuario el ID de una RAM y busca las notebooks con esa RAM.
+ *
+ * \param int indice = -1;
+ * \param int idRAM, i, j;
+ * \return No devuelve nada.
+ *
+ */
+void mostrarNotebooksPorRamSeleccionada(eNotebook arrayNotebooks[], int tamnot, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
+{
+    int indice = -1;
+    int idRAM;
+    int i, j;
+
+    mostrarRAM(arrayRams, tamram);
+
+    printf("Ingrese el ID de la RAM: ");
+    scanf("%d", &idRAM);
+
+    for(i=0; i<tamnot; i++)
+    {
+        if(arrayNotebooks[i].ocupado == 1)
+        {
+            for(j=0; j<tamram; j++)
+            {
+                if(arrayRams[j].id == idRAM && arrayNotebooks[i].idRAM == idRAM)
+                {
+                    listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
+                    indice = 0;
+                }
+            }
+        }
+    }
+
+    if(indice == -1)
+    {
+        printf("No hay notebooks con esa memoria RAM\n\n");
+    }
+}
+
+
+
+
+
+/** \brief Recorre las notebooks y compara cual tiene mayor precio, y almacena la posicion del array en una variable.
+ *
+ * \param int i, j, minimoPosicionArray;
+ * \param int flag = 0;
+ * \return No devuelve nada.
+ *
+ */
+void informarLaOLasNotebooksMasCaras(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
+{
+    int i, j;
+    int maximoPosicionArray = 0;
+    int flag = 0;
+
+    for(i=0; i<len ;i++)
+    {
+        if(arrayNotebooks[i].ocupado == 1)
+        {
+            for(j=i+1; j<len; j++)
+            {
+                if(arrayNotebooks[j].ocupado == 1)
+                {
+                    if(arrayNotebooks[i].precio > arrayNotebooks[j].precio && arrayNotebooks[i].precio > maximoPosicionArray)
+                    {
+                        maximoPosicionArray = i;
+                        flag = 1;
+                    }
+                    else if(arrayNotebooks[i].precio < arrayNotebooks[j].precio && arrayNotebooks[j].precio > maximoPosicionArray)
+                    {
+                        maximoPosicionArray = j;
+                        flag = 1;
+                    }
+
+                }
+            }
+        }
+    }
+
+    if(flag == 1)
+    {
+        listarNotebook(arrayNotebooks[maximoPosicionArray], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
+    }
+    else
+    {
+        printf("No hay notebooks para comparar\n\n");
+    }
+}
+
+
+
+/** \brief Recorre las notebooks y las separa por RAM
+ *
+ * \param int i;
+ * \param
+ * \return No devuelve nada.
+ *
+ */
+void separarPorRAM(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
+{
+    int i;
+
+    printf("*** NOTEBOOKS SEPARADAS POR RAM ***\n\n");
+    for(i=0; i<len; i++)
+    {
+        if(arrayNotebooks[i].ocupado == 1)
+        {
+            if(arrayNotebooks[i].idRAM == 1)
+            {
+                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
+            }
+        }
+    }
+
+    printf("\n");
+
+    for(i=0; i<len; i++)
+    {
+        if(arrayNotebooks[i].ocupado == 1)
+        {
+            if(arrayNotebooks[i].idRAM == 2)
+            {
+                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
+            }
+        }
+    }
+    printf("\n");
+
+
+    for(i=0; i<len; i++)
+    {
+        if(arrayNotebooks[i].ocupado == 1)
+        {
+            if(arrayNotebooks[i].idRAM == 3)
+            {
+                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
+            }
+        }
+    }
+    printf("\n");
+
+    for(i=0; i<len; i++)
+    {
+        if(arrayNotebooks[i].ocupado == 1)
+        {
+            if(arrayNotebooks[i].idRAM == 4)
+            {
+                listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
+            }
+        }
+    }
+}
+
+
+
+
+/** \brief Busca la RAM mas elegida mediante contadores, despues compara el tamaño de los contadores para saber cual es la RAM mas elegida.
+ *
+ * \param int i, j;
+ * \param int cont1GB = 0, cont2GB = 0, cont4GB = 0, cont8GB = 0;
+ * \return No devuelve nada.
+ *
+ */
+void mostrarLaOLasRamMasElegidas(eNotebook arrayNotebooks[], int len, eRAM arrayRams[], int tamram)
+{
+    int i, j;
+    int cont1GB = 0;
+    int cont2GB = 0;
+    int cont4GB = 0;
+    int cont8GB = 0;
+
+    for(i=0; i<len; i++)
+    {
+        if(arrayNotebooks[i].ocupado == 1)
+        {
+            for(j=0; j<tamram; j++)
+            {
+                if(arrayNotebooks[i].idRAM == arrayRams[j].id && arrayNotebooks[i].idRAM == 1)
+                {
+                    cont1GB++;
+                    /*{1000, "Compaq"},
+                           {1001, "Asus"},
+                           {1002, "Acer"},
+                           {1003, "HP"}*/
+                }
+                if(arrayNotebooks[i].idRAM == arrayRams[j].id && arrayNotebooks[i].idRAM == 2)
+                {
+                    cont2GB++;
+                }
+                if(arrayNotebooks[i].idRAM == arrayRams[j].id && arrayNotebooks[i].idRAM == 3)
+                {
+                    cont4GB++;
+                }
+                if(arrayNotebooks[i].idRAM == arrayRams[j].id && arrayNotebooks[i].idRAM == 4)
+                {
+                    cont8GB++;
+                }
+            }
+        }
+    }
+
+
+    if(cont1GB > cont4GB && cont1GB > cont2GB && cont1GB > cont8GB)
+    {
+        printf("1GB es la RAM mas elegida por los clientes.\n\n");
+    }
+    else if(cont4GB > cont1GB && cont4GB > cont2GB && cont4GB > cont8GB)
+    {
+        printf("4GB es la RAM mas elegida por los clientes.\n\n");
+    }
+    else if(cont2GB > cont4GB && cont2GB > cont1GB && cont2GB > cont8GB)
+    {
+        printf("2GB es la RAM mas elegida por los clientes.\n\n");
+    }
+    else if(cont8GB > cont4GB && cont8GB > cont2GB && cont8GB > cont1GB)
+    {
+        printf("8GB es la RAM mas elegida por los clientes.\n\n");
+    }
+    else
+    {
+        printf("No hay notebooks ingresadas.\n\n");
+    }
+}
+
+
+
+
+void ordenarPorRAM(eRAM arrayRams[], int tamram, eNotebook arrayNotebooks[], int tamnot)
+{
+    int auxID;
+    char auxModelo[20];
+    int auxIDMarca;
+    int auxIDTipo;
+    int auxPrecio;
+    int auxIDcliente;
+    int auxIDRam;
+
+    for(int i=0; i<tamnot-1; i++)
+    {
+        for(int k=i+1; k<tamnot; k++)
+        {
+            if(arrayNotebooks[i].idRAM < arrayNotebooks[k].idRAM)
+            {
+                auxID = arrayNotebooks[i].id;
+                arrayNotebooks[i].id = arrayNotebooks[k].id;
+                arrayNotebooks[k].id = auxID;
+                strcpy(auxModelo, arrayNotebooks[i].modelo);
+                strcpy(arrayNotebooks[i].modelo, arrayNotebooks[k].modelo);
+                strcpy(arrayNotebooks[k].modelo, auxModelo);
+                auxIDMarca = arrayNotebooks[i].idMarca;
+                arrayNotebooks[i].idMarca = arrayNotebooks[k].idMarca;
+                arrayNotebooks[k].idMarca = auxIDMarca;
+                auxIDTipo = arrayNotebooks[i].idTipo;
+                arrayNotebooks[i].idTipo = arrayNotebooks[k].idTipo;
+                arrayNotebooks[k].idTipo = auxIDTipo;
+                auxPrecio = arrayNotebooks[i].precio;
+                arrayNotebooks[i].precio = arrayNotebooks[k].precio;
+                arrayNotebooks[k].precio = auxPrecio;
+                auxIDcliente = arrayNotebooks[i].idCliente;
+                arrayNotebooks[i].idCliente = arrayNotebooks[k].idCliente;
+                arrayNotebooks[k].idCliente = auxIDcliente;
+                auxIDRam = arrayNotebooks[i].idRAM;
+                arrayNotebooks[i].idRAM = arrayNotebooks[k].idRAM;
+                arrayNotebooks[k].idRAM = auxIDRam;
+            }
+            else
+            {
+                auxID = arrayNotebooks[k].id;
+                arrayNotebooks[k].id = arrayNotebooks[i].id;
+                arrayNotebooks[i].id = auxID;
+                strcpy(auxModelo, arrayNotebooks[k].modelo);
+                strcpy(arrayNotebooks[k].modelo, arrayNotebooks[i].modelo);
+                strcpy(arrayNotebooks[i].modelo, auxModelo);
+                auxIDMarca = arrayNotebooks[k].idMarca;
+                arrayNotebooks[k].idMarca = arrayNotebooks[i].idMarca;
+                arrayNotebooks[i].idMarca = auxIDMarca;
+                auxIDTipo = arrayNotebooks[k].idTipo;
+                arrayNotebooks[k].idTipo = arrayNotebooks[i].idTipo;
+                arrayNotebooks[i].idTipo = auxIDTipo;
+                auxPrecio = arrayNotebooks[k].precio;
+                arrayNotebooks[k].precio = arrayNotebooks[i].precio;
+                arrayNotebooks[i].precio = auxPrecio;
+                auxIDcliente = arrayNotebooks[k].idCliente;
+                arrayNotebooks[k].idCliente = arrayNotebooks[i].idCliente;
+                arrayNotebooks[i].idCliente = auxIDcliente;
+                auxIDRam = arrayNotebooks[k].idRAM;
+                arrayNotebooks[k].idRAM = arrayNotebooks[i].idRAM;
+                arrayNotebooks[i].idRAM = auxIDRam;
+            }
+        }
     }
 }

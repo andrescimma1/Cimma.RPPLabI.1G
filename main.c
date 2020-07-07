@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "RAM.h"
 #include "clientes.h"
 #include "notebooks.h"
 #include "marcas.h"
@@ -8,12 +9,14 @@
 #include "servicios.h"
 #include "trabajos.h"
 
+
 #define TAMNOT 10
 #define TAMMAR 4
 #define TAMTIP 4
 #define TAMSER 4
 #define TAMTRA 10
 #define TAMCLI 5
+#define TAMRAM 4
 
 int main()
 {
@@ -46,11 +49,18 @@ int main()
                                  {4, "Gonzalo", 'm', 1}
                                };
 
+    eRAM arrayRams[] = {
+                                 {1, 1},
+                                 {2, 2},
+                                 {3, 4},
+                                 {4, 8}
+                               };
+
     eNotebook arrayNotebooks[TAMNOT] = {
-                                       {1, "ASDQE4", 1000, 5001, 25000, 1, 1},
-                                       {4, "DQE4a2", 1002, 5002, 60000, 1, 2},
-                                       {5, "WEDSA3", 1000, 5000, 43000, 1, 4},
-                                       {6, "ESQEs4", 1003, 5003, 74000, 1, 3}
+                                       {1, "ASDQE4", 1000, 5001, 25000, 1, 1, 4},
+                                       {4, "DQE4a2", 1002, 5002, 60000, 1, 2, 2},
+                                       {5, "WEDSA3", 1000, 5000, 43000, 1, 4, 1},
+                                       {6, "ESQEs4", 1003, 5003, 74000, 1, 3, 1}
                                        };
     eTrabajo arrayTrabajos[TAMTRA] = {
                                      {0, 1, 20000, {22, 5, 2020}, 1},
@@ -69,13 +79,13 @@ int main()
             case 'A': altaNotebook(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
                     system("pause");
                     break;
-            case 'B': modificarNotebook(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
+            case 'B': modificarNotebook(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case 'C': bajaNotebook(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
+            case 'C': bajaNotebook(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case 'D': listarNotebooks(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
+            case 'D': listarNotebooks(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
             case 'E': listarMarcas(arrayMarcas, TAMMAR);
@@ -87,42 +97,60 @@ int main()
             case 'G': listarServicios(arrayServicios, TAMSER);
                     system("pause");
                     break;
-            case 'H': altaTrabajo(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayTrabajos, TAMTRA, arrayClientes, TAMCLI);
+            case 'H': altaTrabajo(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayTrabajos, TAMTRA, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case 'I': listarTrabajos(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI);
+            case 'I': listarTrabajos(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case '1': mostrarNotebooksPorTipoSeleccionado(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
+            case '1': mostrarNotebooksPorTipoSeleccionado(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case '2': mostrarNotebooksPorMarcaSeleccionada(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
+            case '2': mostrarNotebooksPorMarcaSeleccionada(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case '3': informarLaOLasNotebooksMasBaratas(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
+            case '3': informarLaOLasNotebooksMasBaratas(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case '4': separarPorMarca(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
+            case '4': separarPorMarca(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case '5': mostrarNotebooksPorTipoYMarca(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI);
+            case '5': mostrarNotebooksPorTipoYMarca(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
             case '6': mostrarLaOLasMarcasMasElegidas(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR);
                     system("pause");
                     break;
-            case '7': trabajosAUnaNote(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI);
+            case '7': trabajosAUnaNote(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case '8': sumaDeServiciosAUnaNote(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI);
+            case '8': sumaDeServiciosAUnaNote(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case '9': pedirServicio(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI);
+            case '9': pedirServicio(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
-            case 'J': pedirFecha(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI);
+            case 'J': pedirFecha(arrayTrabajos, TAMTRA, arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayServicios, TAMSER, arrayClientes, TAMCLI, arrayRams, TAMRAM);
                     system("pause");
                     break;
+            case 'K': mostrarRAM(arrayRams, TAMRAM);
+                    system("pause");
+                    break;
+            case 'L': mostrarNotebooksPorRamSeleccionada(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
+                    system("pause");
+                    break;
+            case 'M': informarLaOLasNotebooksMasCaras(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
+                    system("pause");
+                    break;
+            case 'N': separarPorRAM(arrayNotebooks, TAMNOT, arrayMarcas, TAMMAR, arrayTipos, TAMTIP, arrayClientes, TAMCLI, arrayRams, TAMRAM);
+                    system("pause");
+                    break;
+            case 'O': mostrarLaOLasRamMasElegidas(arrayNotebooks, TAMNOT, arrayRams, TAMRAM);
+                    system("pause");
+                    break;
+            /*case 'P': ordenarPorRAM(arrayRams, TAMRAM, arrayNotebooks, TAMNOT);
+                    system("pause");
+                    break;*/
 
         }
 
@@ -130,6 +158,3 @@ int main()
 
     return 0;
 }
-
-
-

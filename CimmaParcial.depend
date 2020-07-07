@@ -132,3 +132,61 @@
 1593968447 source:c:\users\user\desktop\cimmapplab\cimma.pplabiparte2.1g\clientes.c
 	"clientes.h"
 
+1594083042 source:c:\users\user\desktop\cimma\cimma.rpplabi.1g\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"RAM.h"
+	"clientes.h"
+	"notebooks.h"
+	"marcas.h"
+	"tipos.h"
+	"servicios.h"
+	"trabajos.h"
+
+1594073283 c:\users\user\desktop\cimma\cimma.rpplabi.1g\clientes.h
+	<stdio.h>
+	<stdlib.h>
+
+1594082581 c:\users\user\desktop\cimma\cimma.rpplabi.1g\notebooks.h
+	"marcas.h"
+	"tipos.h"
+	"clientes.h"
+	"RAM.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1594073283 c:\users\user\desktop\cimma\cimma.rpplabi.1g\marcas.h
+
+1594073283 c:\users\user\desktop\cimma\cimma.rpplabi.1g\tipos.h
+
+1594073283 c:\users\user\desktop\cimma\cimma.rpplabi.1g\servicios.h
+
+1594082898 c:\users\user\desktop\cimma\cimma.rpplabi.1g\trabajos.h
+	"notebooks.h"
+	"servicios.h"
+
+1594073283 source:c:\users\user\desktop\cimma\cimma.rpplabi.1g\marcas.c
+	"marcas.h"
+
+1594083069 source:c:\users\user\desktop\cimma\cimma.rpplabi.1g\notebooks.c
+	"notebooks.h"
+
+1594073283 source:c:\users\user\desktop\cimma\cimma.rpplabi.1g\servicios.c
+	"servicios.h"
+
+1594073283 source:c:\users\user\desktop\cimma\cimma.rpplabi.1g\tipos.c
+	"tipos.h"
+
+1594082923 source:c:\users\user\desktop\cimma\cimma.rpplabi.1g\trabajos.c
+	"trabajos.h"
+
+1594073283 source:c:\users\user\desktop\cimma\cimma.rpplabi.1g\clientes.c
+	"clientes.h"
+
+1594081770 c:\users\user\desktop\cimma\cimma.rpplabi.1g\ram.h
+
+1594081686 source:c:\users\user\desktop\cimma\cimma.rpplabi.1g\ram.c
+	"RAM.h"
+

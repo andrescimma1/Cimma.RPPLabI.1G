@@ -79,7 +79,7 @@ int generarIdTrabajo(eTrabajo arrayTrabajos[], int tamtra)
  * \return No devuelve nada.
  *
  */
-void altaTrabajo(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eTrabajo arrayTrabajos[], int lentra, eCliente arrayClientes[], int tamcli)
+void altaTrabajo(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eTrabajo arrayTrabajos[], int lentra, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int idNot;
     int idServicio;
@@ -90,7 +90,7 @@ void altaTrabajo(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int 
 
     if(indice != -1)
     {
-        listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+        listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
 
         printf("Ingrese el ID de la notebook que desea asignarle un trabajo: ");
         fflush(stdin);
@@ -131,7 +131,7 @@ void altaTrabajo(eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int 
 }
 
 
-void listarTrabajo(eTrabajo pTrabajo, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli)
+void listarTrabajo(eTrabajo pTrabajo, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int i;
 
@@ -142,7 +142,7 @@ void listarTrabajo(eTrabajo pTrabajo, eNotebook arrayNotebooks[], int len, eMarc
         if(pTrabajo.idNotebook == arrayNotebooks[i].id && pTrabajo.ocupado == 1)
         {
             printf("Notebook: ");
-            listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+            listarNotebook(arrayNotebooks[i], arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
         }
     }
 
@@ -161,7 +161,7 @@ void listarTrabajo(eTrabajo pTrabajo, eNotebook arrayNotebooks[], int len, eMarc
 
 
 
-void listarTrabajos(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli)
+void listarTrabajos(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int i;
     int indice = -1;
@@ -172,7 +172,7 @@ void listarTrabajos(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNoteboo
     {
         if(arrayTrabajos[i].ocupado == 1)
         {
-            listarTrabajo(arrayTrabajos[i], arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayServicios, lenser, arrayClientes, tamcli);
+            listarTrabajo(arrayTrabajos[i], arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayServicios, lenser, arrayClientes, tamcli, arrayRams, tamram);
             indice = 0;
         }
     }
@@ -194,12 +194,12 @@ void listarTrabajos(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNoteboo
  * \return No devuelve nada.
  *
  */
-void trabajosAUnaNote(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli)
+void trabajosAUnaNote(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int idNote;
     int i;
 
-    listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+    listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
 
     printf("Ingrese la ID de una notebook: ");
     scanf("%d", &idNote);
@@ -210,7 +210,7 @@ void trabajosAUnaNote(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNoteb
         {
             if(idNote == arrayTrabajos[i].idNotebook)
             {
-                listarTrabajo(arrayTrabajos[i], arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayServicios, lenser, arrayClientes, tamcli);
+                listarTrabajo(arrayTrabajos[i], arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayServicios, lenser, arrayClientes, tamcli, arrayRams, tamram);
             }
         }
     }
@@ -219,13 +219,13 @@ void trabajosAUnaNote(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNoteb
 
 
 
-void sumaDeServiciosAUnaNote(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli)
+void sumaDeServiciosAUnaNote(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int precio = 0;
     int idNote;
     int i;
 
-    listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli);
+    listarNotebooks(arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayClientes, tamcli, arrayRams, tamram);
 
     printf("Ingrese la ID de una notebook: ");
     scanf("%d", &idNote);
@@ -248,7 +248,7 @@ void sumaDeServiciosAUnaNote(eTrabajo arrayTrabajos[], int lentra, eNotebook arr
 }
 
 
-void pedirServicio(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli)
+void pedirServicio(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int idServicio;
 
@@ -264,13 +264,13 @@ void pedirServicio(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebook
     {
         if(arrayTrabajos[i].ocupado == 1 && arrayTrabajos[i].idServicio == idServicio)
         {
-            listarTrabajo(arrayTrabajos[i], arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayServicios, lenser, arrayClientes, tamcli);
+            listarTrabajo(arrayTrabajos[i], arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayServicios, lenser, arrayClientes, tamcli, arrayRams, tamram);
         }
     }
 }
 
 
-void pedirFecha(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli)
+void pedirFecha(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[], int len, eMarca arrayMarcas[], int lenmar, eTipo arrayTipos[], int lentip, eServicio arrayServicios[], int lenser, eCliente arrayClientes[], int tamcli, eRAM arrayRams[], int tamram)
 {
     int dia, mes, anio;
     int todoOk = 0;
@@ -293,7 +293,7 @@ void pedirFecha(eTrabajo arrayTrabajos[], int lentra, eNotebook arrayNotebooks[]
             {
                 if(arrayServicios[j].id == arrayTrabajos[i].idServicio)
                 {
-                    listarTrabajo(arrayTrabajos[i], arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayServicios, lenser, arrayClientes, tamcli);
+                    listarTrabajo(arrayTrabajos[i], arrayNotebooks, len, arrayMarcas, lenmar, arrayTipos, lentip, arrayServicios, lenser, arrayClientes, tamcli, arrayRams, tamram);
                     todoOk = 1;
                 }
             }
